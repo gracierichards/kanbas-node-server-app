@@ -1,20 +1,16 @@
-import Database from "../Database/index.js";
+import model from "./model.js";
 export function findAssignmentsForCourse(courseId) {
-  const { assignments } = Database;
-  return assignments.filter((a) => a.course === courseId);
+  return model.find({ course: courseId });
 }
 export function createAssignment(assignment) {
-    const newAssignment = { ...assignment, _id: Date.now().toString() };
-    Database.assignments = [...Database.assignments, newAssignment];
-    return newAssignment;
+    delete assignment._id
+    return model.create(assignment);
 }
 export function deleteAssignment(assignmentID) {
-    const { assignments } = Database;
-    Database.assignments = assignments.filter((a) => a._id !== assignmentID);
+    console.log("Reached dao.deleteAssignment. assignmentID is " + assignmentID);
+    console.log("Calling model.deleteOne");
+    return model.deleteOne({ _id: assignmentID });
 }
 export function updateAssignment(assignmentID, assignmentUpdates) {
-    const { assignments } = Database;
-    const assignment = assignments.find((a) => a._id === assignmentID);
-    Object.assign(assignment, assignmentUpdates);
-    return assignment;
-}  
+    return model.updateOne({ _id: assignmentID }, assignmentUpdates);
+}

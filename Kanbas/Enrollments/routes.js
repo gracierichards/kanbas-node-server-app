@@ -10,7 +10,7 @@ export default function EnrollmentRoutes(app) {
     app.delete("/api/enroll/:courseID/:userID", (req, res) => {
         console.log("Reached Enrollment Routes.js unenroll");
         const { courseID, userID } = req.params;
-        const status = dao.unenrollUserInCourse(userID, courseID);
+        const status = dao.unenrollUserFromCourse(userID, courseID);
         res.send(status);
     });
 }
